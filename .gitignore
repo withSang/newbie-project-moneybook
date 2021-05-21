@@ -1,3 +1,9 @@
+# Project plan files
+plan.txt
+
+# Local Settings
+settings.js
+
 # Logs
 logs
 *.log
