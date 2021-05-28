@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
     res.status(200).send("backend test frontpage");
 });
 
+app.use('/user', )
+
 app.listen(port, "0.0.0.0", () => {
     console.log(`Backend is running on port ${port}.`);
 })
