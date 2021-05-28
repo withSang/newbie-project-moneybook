@@ -14,7 +14,7 @@ function App() {
   const [user, setUser] = useState(null);
   const authenticated = user != null;
 
-  const login = ({user_id, password}) => setUser(signIn({ user_id, password }));
+  const login = ({userID, password}) => setUser(signIn({ userID, password }));
   const logout = () => setUser(null);
 
   return (

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
 function LogInForm({ authenticated, login, location }) {
-    const [user_id, setUser_id] = useState("");
+    const [userID, setUserID] = useState("");
     const [password, setPassword] = useState("");
 
     const handleClick = () => {
         try {
-            login({user_id, password});
+            login({userID, password});
         } catch(e) {
-            alert('로그인 실패!');
-            setUser_id("");
+            alert('로그인 실패. 아이디나 비밀번호를 확인해주세요.');
+            setUserID("");
             setPassword("");
         }
     };
@@ -22,8 +22,8 @@ function LogInForm({ authenticated, login, location }) {
         <>
             <h1>로그인 페이지</h1>
             <input
-                value = {user_id}
-                onChange = {({ target : { value } }) => setUser_id(value)}
+                value = {userID}
+                onChange = {({ target : { value } }) => setUserID(value)}
                 type = "text"
                 placeholder = "아이디"
             />

@@ -1,17 +1,35 @@
-// Todo: DB 연동
-// sample authentication code (frontend)
+import axios from 'axios';
+import { APIBaseUrl } from '../settings';
+
+// const users = [
+//     { name : 'hello', userID : 'helloid', password : 'hellopwd'},
+//     { name : 'good', userID : 'goodid', password : 'goodpwd'},
+//     { name : 'morning', userID : 'morningid', password : 'morningpwd'},
+// ];
+// 
+// function signIn_fake({userID, password}) {
+//     const user = users.find(
+//         (user) => user.userID === userID && user.password === password
+//     );
+//     if (user === undefined) throw new Error('No users found.');
+//     return user;
+// };
 
 
-const users = [
-    { name : 'hello', user_id : 'helloid', password : 'hellopwd'},
-    { name : 'good', user_id : 'goodid', password : 'goodpwd'},
-    { name : 'morning', user_id : 'morningid', password : 'morningpwd'},
-];
+function signIn({userID, password}) {
+    axios.get(APIBaseUrl + "/user/signin",
+    {
+        userID: userID,
+        password: password
+    }).then((response) => {
+        const user = response.data;
+        if (!user) {
+            throw new Error('Login failed');
+        }
+        return user;
+    })
+    return;
+}
 
-export default function signIn({user_id, password}) {
-    const user = users.find(
-        (user) => user.user_id === user_id && user.password === password
-    );
-    if (user === undefined) throw new Error('No users found.');
-    return user;
-};
+
+export default signIn;
