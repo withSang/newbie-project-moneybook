@@ -1,6 +1,8 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
+// 로그인을 해야 볼 수 있는 컴포넌트들은 이 route를 거치도록 한다.
+
 function AuthRoute({ authenticated, component: Component, render, ...rest}) {
     return (
         <Route

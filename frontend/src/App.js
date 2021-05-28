@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import signIn from './auth/auth';
-import LoginForm from './components/LoginForm';
-import LogoutButton from './components/LogoutButton'; 
 import AuthRoute from './routes/AuthRoute';
 import Profile from './components/Profile';
+import NavBar from './components/NavBar';
+
+import LoginPage from './pages/LoginPage';
+import ExpensePage from './pages/ExpensePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,34 +20,32 @@ function App() {
   return (
     <Router>
       <header>
-        {authenticated ? (
-          <div>
-            <LogoutButton logout={logout} />
-            <Link to="/profile">
-              <button>프로필</button>
-            </Link> 
-          </div>
-          
-        ) : (
-          <Link to="/login">
-            <button>로그인</button>
-          </Link>
-        )}
+        <NavBar authenticated={authenticated} logout={logout}/>
       </header>
 
-      <Switch>
-        <AuthRoute
-          authenticated = {authenticated}
-          path = "/profile"
-          render = {props => <Profile user={user} {...props} />}
-        />
-        <Route
-          path="/login"
-          render={props => (
-            <LoginForm authenticated={authenticated} login={login} {...props} />
-          )}
-        />
-      </Switch>
+      <main>
+        <Switch>
+          <AuthRoute
+            exact path="/profile"
+            authenticated = {authenticated}
+            render = {props => <Profile user={user} {...props} />}
+          />
+          <AuthRoute
+            exact path="/moneybook"
+            authenticated = {authenticated}
+            render = {props => <ExpensePage user={user} {...props} />}
+          />
+          <Route
+            exact path="/login"
+            render={props => (
+              <LoginPage authenticated={authenticated} login={login} {...props} />
+            )}
+          />
+          <Route path="/">
+            <NotFoundPage/>
+          </Route>
+        </Switch>
+      </main>
 
     </Router>    
   );
