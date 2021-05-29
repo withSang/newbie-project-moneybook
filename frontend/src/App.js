@@ -6,6 +6,7 @@ import AuthRoute from './routes/AuthRoute';
 import NavBar from './components/NavBar';
 
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ExpensePage from './pages/ExpensePage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -37,6 +38,12 @@ function App() {
             exact path="/login"
             render={props => (
               <LoginPage authenticated={authenticated} setUser={setUser} {...props} />
+            )}
+          />
+          <Route
+            exact path="/register"
+            render={props => (
+              <RegisterPage {...props}/>
             )}
           />
           <Route path="/">

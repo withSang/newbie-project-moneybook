@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { checkGenericInput } from '../security/checkInput';
+import { checkUserID, checkGenericInput } from '../security/checkInput';
 
 function LoginPage({ authenticated, setUser, location }) {
     const [userID, setUserID] = useState("");
     const [password, setPassword] = useState("");
+    const history = useHistory();
 
     const handleSubmit = () => {
         const resetField = () => {
@@ -13,16 +14,19 @@ function LoginPage({ authenticated, setUser, location }) {
           setUserID("");
           setPassword("");
         }
-        if (checkGenericInput(userID) && checkGenericInput(password)) {
+        if (checkUserID(userID) && checkGenericInput(password)) {
             axios.post("api/user/signin", {userID, password})
-                .then((response) => {
-                    const newUser = response.data;
-                    if (newUser) {
-                        setUser(newUser);
-                        alert('로그인 되었습니다.');
-                    } else {
-                        resetField();
-                }
+            .then((response) => {
+                const newUser = response.data;
+                if (newUser) {
+                    setUser(newUser);
+                    alert('로그인 되었습니다.');
+                } else {
+                    resetField();
+            }
+            })
+            .catch((e) => {
+                alert('서버와의 연결이 불안정합니다.');
             })
         } else {
           resetField();
@@ -30,27 +34,29 @@ function LoginPage({ authenticated, setUser, location }) {
     }
     
 
-  const { from } = location.state || { from: { pathname: "/"} };
-  if (authenticated) return <Redirect to={from} />;
+    const { from } = location.state || { from: { pathname: "/"} };
+    if (authenticated) return <Redirect to={from} />;
 
-  return (
-    <div>
-        <h1>로그인 페이지</h1>
-        <input
-            value = {userID}
-            onChange = {({ target : { value } }) => setUserID(value)}
-            type = "text"
-            placeholder = "아이디"
-        />
-        <input
-            value = {password}
-            onChange = {({ target : { value }}) => setPassword(value)}
-            type = "password"
-            placeholder = "비밀번호"
-        />
-        <button onClick={handleSubmit}>로그인</button>
-    </div>
-  );
+
+    return (
+        <div>
+            <h1>로그인 페이지</h1>
+            <input
+                value = {userID}
+                onChange = {({ target : { value } }) => setUserID(value)}
+                type = "text"
+                placeholder = "아이디"
+            />
+            <input
+                value = {password}
+                onChange = {({ target : { value }}) => setPassword(value)}
+                type = "password"
+                placeholder = "비밀번호"
+            />
+            <button onClick={handleSubmit}>로그인</button>
+            <button onClick={() => {history.push('/register')}}>회원가입</button>
+        </div>
+    );
 }
 
 export default LoginPage;

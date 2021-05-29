@@ -13,12 +13,16 @@ router.post('/signin', (req, res) => {
 router.get('/add', (req, res) => {
     const {name, userID, password} = req.query;
     db.addUser(name, userID, password, (result) => {
-        res.status(200).json(result);
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(401).json(result);
+        }
     });
 })
 
 router.post('/add', (req, res) => {
-    const {name, userID, password} = req.params;
+    const {name, userID, password} = req.body;
     db.addUser(name, userID, password, (result) => {
         res.status(200).json(result);
     });
