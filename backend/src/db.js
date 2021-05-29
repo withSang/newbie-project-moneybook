@@ -3,7 +3,8 @@ const UserModel = require('./models/user');
 
 function findUser(userID, password, callback) {
     UserModel.findOne({userID}, (err, user) => {
-        callback(user);
+        const userWithoutPassword = {name: user.name, userID: user.userID};
+        callback(userWithoutPassword);
     })
 }
 
