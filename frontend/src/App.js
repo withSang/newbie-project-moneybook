@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import signIn from './auth/auth';
+// import axios from 'axios';
+
 import AuthRoute from './routes/AuthRoute';
 import Profile from './components/Profile';
 import NavBar from './components/NavBar';
@@ -12,10 +14,22 @@ import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [user, setUser] = useState(null);
-  const authenticated = user != null;
+  let authenticated = user !== null;
+  
+  const login = ({userID, password}) => {signIn({userID, password}, setUser)};
+  // const login = ({userID, password}) => {
+  //   axios.post("api/user/signin", {userID, password})
+  //   .then((response) => {
+  //     const user = response.data;
+  //     if (user) {
+  //       setUser(user);
+  //       alert(user);
+  //     }
+  //   });
+  // };
 
-  const login = ({userID, password}) => setUser(signIn({ userID, password }));
   const logout = () => setUser(null);
+
 
   return (
     <Router>

@@ -7,7 +7,7 @@ function findUser(userID, password, callback) {
     })
 }
 
-function addUser(name, userID, password) {
+function addUser(name, userID, password, callback) {
     const newUser = new UserModel({name, userID, password});
     newUser.save((err, result) => {
         callback(result);

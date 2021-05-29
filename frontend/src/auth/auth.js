@@ -1,13 +1,12 @@
 import axios from 'axios';
-import { APIBaseUrl } from '../settings';
 
 // const users = [
 //     { name : 'hello', userID : 'helloid', password : 'hellopwd'},
 //     { name : 'good', userID : 'goodid', password : 'goodpwd'},
 //     { name : 'morning', userID : 'morningid', password : 'morningpwd'},
 // ];
-// 
-// function signIn_fake({userID, password}) {
+
+// function signIn({userID, password}) {
 //     const user = users.find(
 //         (user) => user.userID === userID && user.password === password
 //     );
@@ -16,20 +15,15 @@ import { APIBaseUrl } from '../settings';
 // };
 
 
-function signIn({userID, password}) {
-    axios.get(APIBaseUrl + "/user/signin",
-    {
-        userID: userID,
-        password: password
-    }).then((response) => {
-        const user = response.data;
-        if (!user) {
-            throw new Error('Login failed');
-        }
-        return user;
-    })
-    return;
-}
-
+const signIn = ({userID, password}, setUser) => {
+  // setUser({ name : 'hello', userID : 'helloid', password : 'hellopwd'}); return;
+  axios.post("api/user/signin", {userID, password})
+  .then((response) => {
+    const user = response.data;
+    if (user) {
+      setUser(user);
+    }
+  });
+};
 
 export default signIn;
