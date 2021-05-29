@@ -1,7 +1,7 @@
 //Login Test Component
 import React from 'react';
 
-function Profile({ user }) {
+function ChangePasswordForm({ user }) {
     const {name, password} = user || {};
     return (
       <div>
@@ -13,4 +13,4 @@ function Profile({ user }) {
     );
 }
 
-export default Profile;
+export default ChangePasswordForm;
