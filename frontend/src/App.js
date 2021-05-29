@@ -3,19 +3,17 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 
 import AuthRoute from './routes/AuthRoute';
-import Profile from './components/Profile';
 import NavBar from './components/NavBar';
 
 import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
 import ExpensePage from './pages/ExpensePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [user, setUser] = useState(null);
   let authenticated = user !== null;
-
   const logout = () => setUser(null);
-
 
   return (
     <Router>
@@ -28,7 +26,7 @@ function App() {
           <AuthRoute
             exact path="/profile"
             authenticated = {authenticated}
-            render = {props => <Profile user={user} {...props} />}
+            render = {props => <ProfilePage user={user} setUser={setUser} {...props} />}
           />
           <AuthRoute
             exact path="/moneybook"
@@ -38,7 +36,7 @@ function App() {
           <Route
             exact path="/login"
             render={props => (
-              <LoginPage authenticated={authenticated} user={user} setUser={setUser} {...props} />
+              <LoginPage authenticated={authenticated} setUser={setUser} {...props} />
             )}
           />
           <Route path="/">
