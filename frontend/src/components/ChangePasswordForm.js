@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { checkPassword } from '../security/checkInput';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 
 function ChangePasswordForm({ user }) {
     const [ nowPassword, setNowPassword ] = useState("");
@@ -58,21 +62,51 @@ function ChangePasswordForm({ user }) {
     return (
         <div>
             <h2>비밀번호 변경</h2>
-            <input
-                value = {nowPassword}
-                onChange = {({ target : { value } }) => setNowPassword(value)}
-                type = "password"
-                placeholder = "현재 비밀번호"
-            />
-            <p className="warning">{nowPasswordWarning}</p>
-            <input
-                value = {newPassword}
-                onChange = {({ target : { value } }) => setNewPassword(value)}
-                type = "password"
-                placeholder = "새 비밀번호"
-            />
-            <p className="warning">{newPasswordWarning}</p>
-            <button onClick={handlePasswordChange}>비빌번호 변경하기</button>
+            <Form.Group>
+                <Form.Row>
+                    <Col xs={1}>
+                        <Form.Label>현재 비밀번호</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <input
+                            value = {nowPassword}
+                            onChange = {({ target : { value } }) => setNowPassword(value)}
+                            type = "password"
+                            placeholder = "현재 비밀번호"
+                        />
+                    </Col>
+                    { nowPasswordWarning ? (
+                            <Col xs={3}>
+                                <Alert variant="danger">{nowPasswordWarning}</Alert>
+                            </Col>
+                        ) : (
+                            null
+                        )
+                    }
+                </Form.Row>
+                <Form.Row>
+                    <Col xs={1}>
+                        <Form.Label>새 비밀번호</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <input
+                            value = {newPassword}
+                            onChange = {({ target : { value } }) => setNewPassword(value)}
+                            type = "password"
+                            placeholder = "새 비밀번호"
+                        />
+                    </Col>
+                    { newPasswordWarning ? (
+                            <Col xs={3}>
+                                <Alert variant="danger">{newPasswordWarning}</Alert>
+                            </Col>
+                        ) : (
+                            null
+                        )
+                    }
+                </Form.Row>
+            <Button variant="primary" onClick={handlePasswordChange}>비빌번호 변경하기</Button>
+            </Form.Group>
         </div>
     );
 };

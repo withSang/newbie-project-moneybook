@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { checkName, checkUserID, checkPassword } from '../security/checkInput';
 import axios from 'axios';
-
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 
 function RegisterForm() {
     const [ name, setName ] = useState("");
@@ -59,30 +62,76 @@ function RegisterForm() {
     return (
         <div>
             <h1>회원가입 페이지</h1>
-            <input
-                value = {name}
-                onChange = {({ target : { value } }) => setName(value)}
-                type = "text"
-                placeholder = "이름"
-            />
-            <p className='warning'>{nameWarning}</p>
-            <input
-                value = {userID}
-                onChange = {({ target : { value } }) => setUserID(value)}
-                type = "text"
-                placeholder = "아이디"
-            />
-            <button onClick={() => {checkUserIDIsUnique(userID, ()=>{alert('사용 가능한 아이디입니다.')})}}>아이디 중복 확인</button>
-            <p className='warning'>{userIDWarning}</p>
-            <input
-                value = {password}
-                onChange = {({ target : { value } }) => setPassword(value)}
-                type = "password"
-                placeholder = "비밀번호"
-            />
-            <p className='warning'>{passwordWarning}</p>
-            <button onClick={() => {checkUserIDIsUnique(userID, handleSubmit)}}>회원가입</button>
-            <button onClick={() => {history.push('/login')}}>돌아가기</button>
+            <Form.Group>
+                <Form.Row>
+                    <Col xs={1}>
+                        <Form.Label>이름</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <input
+                            value = {name}
+                            onChange = {({ target : { value } }) => setName(value)}
+                            type = "text"
+                            placeholder = "이름"
+                        />
+                    </Col>
+                    { nameWarning ? (
+                            <Col xs={3}>
+                                <Alert variant="danger">{nameWarning}</Alert>
+                            </Col>
+                        ) : (
+                            null
+                        )
+                    }
+                </Form.Row>
+                <Form.Row>
+                    <Col xs={1}>
+                        <Form.Label>아이디</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <input
+                            value = {userID}
+                            onChange = {({ target : { value } }) => setUserID(value)}
+                            type = "text"
+                            placeholder = "아이디"
+                        />
+                    </Col>
+                    <Col xs={2}>
+                        <Button variant="info" onClick={() => {checkUserIDIsUnique(userID, ()=>{alert('사용 가능한 아이디입니다.')})}}>아이디 중복 확인</Button>
+                    </Col>
+                    { userIDWarning ? (
+                            <Col xs={3}>
+                                <Alert variant="danger">{userIDWarning}</Alert>
+                            </Col>
+                        ) : (
+                            null
+                        )
+                    }                 
+                </Form.Row>
+                <Form.Row>
+                    <Col xs={1}>
+                        <Form.Label>비밀번호</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <input
+                            value = {password}
+                            onChange = {({ target : { value } }) => setPassword(value)}
+                            type = "password"
+                            placeholder = "비밀번호"
+                        />
+                    </Col>
+                    { passwordWarning ? (
+                            <Col xs={3}>
+                                <Alert variant="danger">{passwordWarning}</Alert>
+                            </Col>
+                        ) : (
+                            null
+                        )
+                    }
+                </Form.Row>
+                <Button variant="primary" onClick={() => {checkUserIDIsUnique(userID, handleSubmit)}}>회원가입</Button>
+                <Button variant="info" onClick={() => {history.push('/login')}}>돌아가기</Button>
+            </Form.Group>
         </div>
     );
 };

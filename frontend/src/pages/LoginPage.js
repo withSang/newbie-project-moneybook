@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { checkUserID, checkGenericInput } from '../security/checkInput';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 function LoginPage({ authenticated, setUser, location }) {
     const [userID, setUserID] = useState("");
@@ -20,7 +23,7 @@ function LoginPage({ authenticated, setUser, location }) {
                 const newUser = response.data;
                 if (newUser) {
                     setUser(newUser);
-                    alert('로그인 되었습니다.');
+                    // alert('로그인 되었습니다.');
                 } else {
                     resetField();
             }
@@ -41,20 +44,38 @@ function LoginPage({ authenticated, setUser, location }) {
     return (
         <div>
             <h1>로그인 페이지</h1>
-            <input
-                value = {userID}
-                onChange = {({ target : { value } }) => setUserID(value)}
-                type = "text"
-                placeholder = "아이디"
-            />
-            <input
-                value = {password}
-                onChange = {({ target : { value }}) => setPassword(value)}
-                type = "password"
-                placeholder = "비밀번호"
-            />
-            <button onClick={handleSubmit}>로그인</button>
-            <button onClick={() => {history.push('/register')}}>회원가입</button>
+            <Form.Group>
+                <Form.Row>
+                    <Col xs={2}>
+                        <Form.Label>아이디</Form.Label>
+                    </Col>
+                    <Col xs={2}>
+                        <Form.Control
+                        value = {userID}
+                        onChange = {({ target : { value } }) => setUserID(value)}
+                        type = "text"
+                        placeholder = "아이디"
+                        />
+                    </Col>
+                </Form.Row>
+                <Form.Row>
+                    <Col xs={2}>
+                        <Form.Label>비밀번호</Form.Label>  
+                    </Col>
+                    <Col xs={2}>
+                        <Form.Control
+                        value = {password}
+                        onChange = {({ target : { value }}) => setPassword(value)}
+                        type = "password"
+                        placeholder = "비밀번호"
+                        />   
+                    </Col>
+                </Form.Row>
+            </Form.Group>
+            <Form.Group>
+                <Button variant='primary' onClick={handleSubmit}>로그인</Button>
+                <Button variant='info' onClick={() => {history.push('/register')}}>회원가입</Button>
+            </Form.Group>
         </div>
     );
 }

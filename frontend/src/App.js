@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <header>
-        <NavBar authenticated={authenticated} logout={logout}/>
+        <NavBar authenticated={authenticated} logout={logout} user={user}/>
       </header>
 
       <main>
