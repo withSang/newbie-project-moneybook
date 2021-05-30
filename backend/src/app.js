@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const userRouter = require('./routes/user');
 
 const app = express();
 const port = 8000;
@@ -25,6 +26,8 @@ app.use(bodyParser.urlencoded({
 app.get('/', (req, res) => {
     res.status(200).send("backend test frontpage");
 });
+
+app.use('/user', userRouter);
 
 app.listen(port, "0.0.0.0", () => {
     console.log(`Backend is running on port ${port}.`);
