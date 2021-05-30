@@ -1,9 +1,14 @@
 //가계부 프리셋
 const mongoose = require('mongoose');
+import {utcToKst} from '../misc/timeZone';
 
 const presetSchema = new mongoose.Schema({
     name : String,
-    user : mongoose.Schema.Types.ObjectId,
+    userID : String,
+    date : {
+        type: Date,
+        default: utcToKst(new Date())
+    },
     money : {
         type: Number,
         default: 0

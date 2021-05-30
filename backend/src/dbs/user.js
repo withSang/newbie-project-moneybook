@@ -1,8 +1,8 @@
-const UserModel = require('./models/user');
+const UserModel = require('../models/user');
 const pbkfd2Password = require('pbkdf2-password');
 const hasher = pbkfd2Password();
 const crypto = require('crypto');
-const { checkName, checkUserID, checkPassword } = require('./security/checkInput');
+const { checkName, checkUserID, checkPassword } = require('../security/checkInput');
 
 
 // Create - 회원가입용 함수로, DB에 회원을 추가한다.
