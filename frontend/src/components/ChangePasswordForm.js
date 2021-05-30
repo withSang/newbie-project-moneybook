@@ -64,14 +64,14 @@ function ChangePasswordForm({ user }) {
                 type = "password"
                 placeholder = "현재 비밀번호"
             />
-            <p class="warning">{nowPasswordWarning}</p>
+            <p className="warning">{nowPasswordWarning}</p>
             <input
                 value = {newPassword}
                 onChange = {({ target : { value } }) => setNewPassword(value)}
                 type = "password"
                 placeholder = "새 비밀번호"
             />
-            <p class="warning">{newPasswordWarning}</p>
+            <p className="warning">{newPasswordWarning}</p>
             <button onClick={handlePasswordChange}>비빌번호 변경하기</button>
         </div>
     );
