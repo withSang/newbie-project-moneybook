@@ -3,8 +3,13 @@ import ChangePasswordForm from '../components/ChangePasswordForm';
 
 function ProfilePage({ user, setUser }) {
     return (
-        <ChangePasswordForm user={user}/>
+        <div>
+            <h1>프로필 페이지</h1>
+            <ChangePasswordForm user={user}/>
+        </div>
+
     );
 };
+
 
 export default ProfilePage;
