@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 
 function RemoveUserButton({ user, logout, history }) {
     const handleClick = () => {
@@ -25,7 +26,7 @@ function RemoveUserButton({ user, logout, history }) {
         })
     };
 
-    return <button onClick={handleClick}>탈퇴</button>
+    return <Button variant="danger" onClick={handleClick}>탈퇴</Button>
 }
 
 export default withRouter(RemoveUserButton);
