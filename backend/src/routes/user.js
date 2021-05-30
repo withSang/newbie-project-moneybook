@@ -4,12 +4,24 @@ const db = require('../db');
 const router = express.Router();
 
 //Create
-router.post('/add', (req, res) => {
+router.post('/signup', (req, res) => {
     const {name, userID, password} = req.body;
     db.addUser(name, userID, password, (result) => {
         res.status(200).json(result);
     });
 });
+
+//Retrieve
+router.post('/signup/checkid', (req, res) => {
+    const { userID } = req.body;
+    db.checkDuplicateUserID(userID, (result) => {
+        if (result === 'unavailable') {
+            res.status(401).json(result);
+        } else { //"ok"
+            res.status(200).json(result);
+        }
+    })
+})
 
 //Retrieve
 router.post('/signin', (req, res) => {

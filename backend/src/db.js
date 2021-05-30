@@ -4,7 +4,28 @@ const hasher = pbkfd2Password();
 const crypto = require('crypto');
 const { checkName, checkUserID, checkPassword } = require('./security/checkInput');
 
-//로그인용 함수로, DB에서 회원을 찾고 비밀번호를 검증한다.
+
+// Create - 회원가입용 함수로, DB에 회원을 추가한다.
+function addUser(name, userID, password, callback) {
+    if ( !checkName(name) || !checkUserID(userID) || !checkPassword(password)) {
+        callback(null);
+        return;
+    }
+    hasher({password, salt:crypto.randomBytes(16).toString('hex')}, (err, pass, salt, hash) => {
+        const newUser = new UserModel({
+            name,
+            userID,
+            password_salt: salt,
+            password_hash: hash
+        });
+        newUser.save((err, result) => {
+            callback(result);
+        })
+    });
+}
+
+
+// Retrieve - 로그인용 함수로, DB에서 회원을 찾고 비밀번호를 검증한다.
 function findUser(userID, password, callback) {
     if ( !checkUserID(userID) || !checkPassword(password)) {
         //입력값이 올바르지 않을 때
@@ -29,26 +50,25 @@ function findUser(userID, password, callback) {
     })   
 }
 
-//회원가입용 함수로, DB에 회원을 추가한다.
-function addUser(name, userID, password, callback) {
-    if ( !checkName(name) || !checkUserID(userID) || !checkPassword(password)) {
-        callback(null);
+// Retrieve - 아이디가 이미 쓰이는지 확인한다.
+function checkDuplicateUserID(userID, callback) {
+    if ( !checkUserID(userID) ) {
+        callback('unavailable');
         return;
     }
-    hasher({password, salt:crypto.randomBytes(16).toString('hex')}, (err, pass, salt, hash) => {
-        const newUser = new UserModel({
-            name,
-            userID,
-            password_salt: salt,
-            password_hash: hash
-        });
-        newUser.save((err, result) => {
-            callback(result);
-        })
-    });
+    UserModel.findOne({userID}, (err, user) => {
+        if (!user) {
+            // 같은 아이디의 유저가 없는 경우
+            callback("ok");
+        } else {
+            // 같은 아이디의 유저가 조회된 경우
+            callback("unavailable");
+        }
+    })
 }
 
-//비밀번호 수정용 함수로, DB에서 회원을 찾아 비밀번호 속성을 바꾼다.
+
+//Update - 비밀번호 수정용 함수로, DB에서 회원을 찾아 비밀번호 속성을 바꾼다.
 function updateUser(userID, nowPassword, newPassword, callback) {
     if ( !checkUserID(userID) || !checkPassword(nowPassword) || !checkPassword(newPassword) ){
         //입력값이 올바르지 않을 때
@@ -87,6 +107,7 @@ function updateUser(userID, nowPassword, newPassword, callback) {
     })
 }
 
+// Delete - 회원 정보를 삭제한다.
 function removeUser(userID, callback) {
     UserModel.deleteOne({userID}, (err) => {
         if (!err) {
@@ -101,6 +122,7 @@ function removeUser(userID, callback) {
 module.exports = {
     findUser,
     addUser,
+    checkDuplicateUserID,
     updateUser,
-    removeUser
+    removeUser,
 };
