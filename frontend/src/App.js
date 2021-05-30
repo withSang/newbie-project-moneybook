@@ -27,7 +27,7 @@ function App() {
           <AuthRoute
             exact path="/profile"
             authenticated = {authenticated}
-            render = {props => <ProfilePage user={user} setUser={setUser} {...props} />}
+            render = {props => <ProfilePage user={user} logout={logout} {...props} />}
           />
           <AuthRoute
             exact path="/moneybook"

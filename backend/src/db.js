@@ -55,7 +55,6 @@ function updateUser(userID, nowPassword, newPassword, callback) {
         callback(null);
         return;
     }
-    
     UserModel.findOne({userID}, (err, user) => {
         if (user) {
             hasher({password : nowPassword, salt : user.password_salt}, (err, pass, salt, hash) => {
@@ -88,9 +87,20 @@ function updateUser(userID, nowPassword, newPassword, callback) {
     })
 }
 
+function removeUser(userID, callback) {
+    UserModel.deleteOne({userID}, (err) => {
+        if (!err) {
+            callback("ok");
+        } else {
+            callback("internal server error");
+        }
+    })
+}
+
 
 module.exports = {
     findUser,
     addUser,
-    updateUser
+    updateUser,
+    removeUser
 };
