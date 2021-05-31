@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ExpenseForm from '../components/ExpenseForm';
 
 function ExpensePage({ user }) {
-    const { name } = user || {}; //user가 undefined, null 등이면 새 빈 오브젝트를 만든다.
+    const { name } = user;
+    const [ expenseModified, setExpenseModified ] = useState(false);
     return (
-        <h1>{name}의 가계부 페이지</h1>
+        <div>
+            <h2>{name}의 가계부 페이지</h2>
+            <ExpenseForm user={user} setExpenseModified={setExpenseModified}/>
+        </div>
     );
 }
 

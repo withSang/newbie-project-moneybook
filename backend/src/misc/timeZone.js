@@ -14,8 +14,8 @@ function kstToUtc(kstDate){
 
 // // Seems that local develop environment runs in UTC timezone.
 // console.log(new Date());
-// console.log(kstToUtc(new Date()));
-// console.log(utcToKst(kstToUtc(new Date())));
+// console.log(utcToKst(new Date()));
+// console.log(kstToUtc(utcToKst(new Date())));
 
 module.exports = {
     utcToKst, 

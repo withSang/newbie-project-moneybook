@@ -1,6 +1,5 @@
 const ExpenseModel = require('../models/expense');
 const { checkUserID, checkGenericInput } = require('../security/checkInput');
-const { kstToUtc } = require('../misc/timeZone');
 
 // Create - 새 가계부 항목을 추가한다.
 function addExpense(userID, {name, date, money, isPositive, isSchool}, callback) {
@@ -8,10 +7,11 @@ function addExpense(userID, {name, date, money, isPositive, isSchool}, callback)
         callback(null);
         return;
     }
+    console.log(new Date(date));
     const newExpense = new ExpenseModel({
         name,
         userID,
-        date: kstToUtc(date),
+        date: new Date(date),
         money,
         isPositive,
         isSchool
