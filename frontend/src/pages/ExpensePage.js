@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ExpenseForm from '../components/ExpenseForm';
+import ExpenseAddForm from '../components/ExpenseAddForm';
+import ExpenseEditForm from '../components/ExpenseEditForm';
 import ExpenseItem from '../components/ExpenseItem';
 import axios from 'axios';
 
 function ExpensePage({ user }) {
     const { name } = user;
-    const [ expenseEditing, setExpenseEditing ] = useState(false); //수정중(true)인지 새로 추가중(false)인지
+    // const [ editMode, setEditMode ] = useState(false); //수정중(true)인지 새로 추가중(false)인지
+    const [ expenseToEdit, setExpenseToEdit ] = useState({});
     const [ expenseModified, setExpenseModified ] = useState(true);
     const [ expenses, setExpenses ] = useState([])
 
@@ -38,7 +40,8 @@ function ExpensePage({ user }) {
     return (
         <div>
             <h2>{name}의 가계부 페이지</h2>
-            <ExpenseForm user={user} setExpenseModified={setExpenseModified}/>
+            <ExpenseAddForm user={user} setExpenseModified={setExpenseModified} />
+            <ExpenseEditForm user={user} setExpenseModified={setExpenseModified} expense={expenseToEdit} />
             {expenses.map((item, index) => {
                 return <ExpenseItem item={item} key={index} setExpenseModified={setExpenseModified}/>
             })}

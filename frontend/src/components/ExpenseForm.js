@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { checkGenericInput, checkMoney } from '../security/checkInput';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,26 +6,28 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
-import axios from 'axios';
 
-function ExpenseForm ( {user, setExpenseModified} ) {
+
+function ExpenseForm ( {user, expense, setExpenseModified, buttonText, callback} ) {
+    const prevExpense = expense || {};
+    const _id = prevExpense._id || null;
     const userID = user.userID;
-    const [name, setName] = useState('');
+    const [name, setName] = useState(prevExpense.name || '');
     const [nameWarning, setNameWarning] = useState("");
-    const [date, setDate] = useState(new Date());
-    const [money, setMoney] = useState(0);
+    const [date, setDate] = useState(new Date(prevExpense.date || new Date()) );
+    const [money, setMoney] = useState(prevExpense.money || 0);
     const [moneyWarning, setMoneyWarning] = useState("");
-    const [isPositive, setIsPositive] = useState(false);
-    const [isSchool, setIsSchool] = useState(true);
+    const [isPositive, setIsPositive] = useState(prevExpense.isPositive || false);
+    const [isSchool, setIsSchool] = useState(prevExpense.isSchool || true);
 
     registerLocale('ko', ko);
 
     const clearForm = () => {
-        setDate(new Date());
-        setName("")
-        setMoney(0);
-        setIsPositive(false);
-        setIsSchool(true);
+        setDate(new Date(prevExpense.date || new Date()));
+        setName(prevExpense.name || '')
+        setMoney(prevExpense.money || 0);
+        setIsPositive(prevExpense.isPositive || false);
+        setIsSchool(prevExpense.isSchool || true);
     }
 
     const handleSubmit = () => {
@@ -45,24 +47,12 @@ function ExpenseForm ( {user, setExpenseModified} ) {
         if (wrongInput) {
             return;
         }
-        axios.post('/api/expense/add', {
-            userID,
-            name,
-            date,
-            money,
-            isPositive,
-            isSchool
-        }).then((result) => {
-            if (result) {
-                alert('추가되었습니다.');
-                clearForm();
-                setExpenseModified(true);
-            } else {
-                alert('오류가 발생했습니다. 나중에 다시 시도해주세요.')
-            }
-        }).catch((error) => {
-            alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
-        })
+        callback({_id, userID, name, date, money, isPositive, isSchool}, ()=>{
+            clearForm();
+            setExpenseModified(true);
+            return;
+        });
+        return;
     }
 
     return (
@@ -125,7 +115,7 @@ function ExpenseForm ( {user, setExpenseModified} ) {
                             <option value="false">교외</option>
                         </Form.Control>
                     </Col>
-                    <Button variant="primary" onClick={handleSubmit}>추가</Button>
+                    <Button variant="primary" onClick={handleSubmit}>{buttonText}</Button>
                     <Button variant="secondary">템플릿 추가</Button>
                 </Form.Row>
                 {nameWarning ? (
