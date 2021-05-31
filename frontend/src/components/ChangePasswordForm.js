@@ -64,7 +64,7 @@ function ChangePasswordForm({ user }) {
             <h2>비밀번호 변경</h2>
             <Form.Group>
                 <Form.Row>
-                    <Col xs={1}>
+                    <Col xs={2}>
                         <Form.Label>현재 비밀번호</Form.Label>
                     </Col>
                     <Col xs={2}>
@@ -85,7 +85,7 @@ function ChangePasswordForm({ user }) {
                     }
                 </Form.Row>
                 <Form.Row>
-                    <Col xs={1}>
+                    <Col xs={2}>
                         <Form.Label>새 비밀번호</Form.Label>
                     </Col>
                     <Col xs={2}>
