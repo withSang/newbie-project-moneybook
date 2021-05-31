@@ -54,7 +54,6 @@ function ExpenseForm ( {user, setExpenseModified} ) {
             isSchool
         }).then((result) => {
             if (result) {
-                alert(date);
                 alert('추가되었습니다.');
                 clearForm();
                 setExpenseModified(true);
@@ -68,7 +67,6 @@ function ExpenseForm ( {user, setExpenseModified} ) {
 
     return (
         <div>
-            <h2>항목 추가하기</h2>
             <Form.Group>
                 <Form.Row>
                     <Col xs={3}>
@@ -80,7 +78,7 @@ function ExpenseForm ( {user, setExpenseModified} ) {
                     <Col xs={2}>
                         <Form.Label>금액</Form.Label>
                     </Col>
-                    <Col xs={1}>
+                    <Col xs={2}>
                         <Form.Label>수입</Form.Label>
                     </Col>
                     <Col xs={2}>
@@ -117,18 +115,18 @@ function ExpenseForm ( {user, setExpenseModified} ) {
                             onChange = {({ target : { checked }}) => setIsPositive(checked)}
                         />
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={1}>
                         <Form.Control
                             as = "select"
                             onChange = {({ target : { value }}) => setIsSchool(value === 'true')}
                             type = "text"
-                            placeholder = "교내/교외"
                         >
                             <option value="true">교내</option>
                             <option value="false">교외</option>
                         </Form.Control>
                     </Col>
-                    <Button variant="primary" onClick={handleSubmit}>저장</Button>
+                    <Button variant="primary" onClick={handleSubmit}>추가</Button>
+                    <Button variant="secondary">템플릿 추가</Button>
                 </Form.Row>
                 {nameWarning ? (
                     <Alert variant="danger">{nameWarning}</Alert>

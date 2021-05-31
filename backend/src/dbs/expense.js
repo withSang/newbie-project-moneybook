@@ -7,7 +7,6 @@ function addExpense(userID, {name, date, money, isPositive, isSchool}, callback)
         callback(null);
         return;
     }
-    console.log(new Date(date));
     const newExpense = new ExpenseModel({
         name,
         userID,

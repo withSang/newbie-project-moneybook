@@ -19,7 +19,7 @@ router.post('/add', (req, res) => {
 router.post('/getAll', (req, res) => {
     const { userID } = req.body;
     db.getAllExpensesByUser(userID, (result) => {
-        if (result === "ok") {
+        if (result) {
             res.status(200).json(result);
         } else {
             res.status(401).json(result);
@@ -40,7 +40,7 @@ router.post('/update', (req, res) => {
 })
 
 // Delete - 특정 가계부 항목 하나를 삭제한다.
-router.post('/delete', (req, res) => {
+router.delete('/delete', (req, res) => {
     const {userID, _id} = req.body;
     db.deleteOneExpense(userID, _id, (result) => {
         if (result === "ok") {
