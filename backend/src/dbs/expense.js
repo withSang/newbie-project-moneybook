@@ -18,7 +18,7 @@ function addExpense(userID, {name, date, money, isPositive, isSchool}, callback)
     })
     newExpense.save((err, result) => {
         if (!err) {
-            callback(result);
+            callback("ok");
         } else {
             callback(null);
         }

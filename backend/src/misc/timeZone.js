@@ -2,13 +2,13 @@ let timezoneOffset = +9; //UTC+9
 
 //UTC time to KST time
 function utcToKst(utcDate) {
-    let kstDate = new Date(utcDate.getTime() + (timezoneOffset * 1000 * 3600));
+    let kstDate = new Date(new Date(utcDate).getTime() + (timezoneOffset * 1000 * 3600));
     return kstDate;
 }
 
 //KST time to UTC time
 function kstToUtc(kstDate){
-    let utcDate = new Date(kstDate.getTime() - (timezoneOffset * 1000 * 3600));
+    let utcDate = new Date(new Date(kstDate).getTime() - (timezoneOffset * 1000 * 3600));
     return utcDate;
 }
 

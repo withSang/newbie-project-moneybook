@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/add', (req, res) => {
     const {userID, name, date, money, isPositive, isSchool} = req.body;
     db.addExpense(userID, {name, date, money, isPositive, isSchool}, (result) => {
-        if (!result) {
+        if (result === "ok") {
             res.status(200).json(result);
         } else {
             res.status(401).json(result);
@@ -19,7 +19,7 @@ router.post('/add', (req, res) => {
 router.post('/getAll', (req, res) => {
     const { userID } = req.body;
     db.getAllExpensesByUser(userID, (result) => {
-        if (!result) {
+        if (result === "ok") {
             res.status(200).json(result);
         } else {
             res.status(401).json(result);
