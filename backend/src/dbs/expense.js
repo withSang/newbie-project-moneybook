@@ -3,7 +3,7 @@ const { checkUserID, checkGenericInput } = require('../security/checkInput');
 const { kstToUtc } = require('../misc/timeZone');
 
 // Create - 새 가계부 항목을 추가한다.
-function addExpense(userID, {name, date, money, isPositive, isSchool}) {
+function addExpense(userID, {name, date, money, isPositive, isSchool}, callback) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
         callback(null);
         return;
@@ -26,7 +26,7 @@ function addExpense(userID, {name, date, money, isPositive, isSchool}) {
 }
 
 // Retrieve - 특정 사용자의 가계부 항목을 모두 가져온다.
-function getAllExpensesByUser(userID) {
+function getAllExpensesByUser(userID, callback) {
     if ( !checkUserID(userID) ) {
         callback(null);
         return;
@@ -42,7 +42,7 @@ function getAllExpensesByUser(userID) {
 }
 
 // Update - 특정 가계부 항목 하나를 수정한다.
-function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}) {
+function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, callback) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
         callback(null);
         return;
@@ -66,7 +66,7 @@ function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}
 }
 
 // Delete - 특정 가계부 항목 하나를 삭제한다.
-function deleteOneExpense(userID, _id) {
+function deleteOneExpense(userID, _id, callback) {
     ExpenseModel.deleteOne({userID, _id}, (err) => {
         if (!err) {
             callback("ok");
