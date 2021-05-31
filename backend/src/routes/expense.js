@@ -5,8 +5,8 @@ const router = express.Router();
 
 // Create - 새 가계부 항목을 추가한다.
 router.post('/add', (req, res) => {
-    const {userID, name, date, money, is_positive, is_school} = req.body;
-    db.addExpense(userID, {name, date, money, is_positive, is_school}, (result) => {
+    const {userID, name, date, money, isPositive, isSchool} = req.body;
+    db.addExpense(userID, {name, date, money, isPositive, isSchool}, (result) => {
         if (!result) {
             res.status(200).json(result);
         } else {
@@ -29,8 +29,8 @@ router.post('/getAll', (req, res) => {
 
 // Update - 특정 가계부 항목 하나를 수정한다.
 router.post('/update', (req, res) => {
-    const {userID, _id, name, date, money, is_positive, is_school} = req.body;
-    db.updateOneExpense(userID, {_id, name, date, money, is_positive, is_school}, (result) => {
+    const {userID, _id, name, date, money, isPositive, isSchool} = req.body;
+    db.updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, (result) => {
         if (result === "ok") {
             res.status(200).json(result);
         } else { //"internal server error"

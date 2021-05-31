@@ -3,7 +3,7 @@ const { checkUserID, checkGenericInput } = require('../security/checkInput');
 const { kstToUtc } = require('../misc/timeZone');
 
 // Create - 새 가계부 항목을 추가한다.
-function addExpense(userID, {name, date, money, is_positive, is_school}) {
+function addExpense(userID, {name, date, money, isPositive, isSchool}) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
         callback(null);
         return;
@@ -13,8 +13,8 @@ function addExpense(userID, {name, date, money, is_positive, is_school}) {
         userID,
         date: kstToUtc(date),
         money,
-        is_positive,
-        is_school
+        isPositive,
+        isSchool
     })
     newExpense.save((err, result) => {
         if (!err) {
@@ -42,14 +42,14 @@ function getAllExpensesByUser(userID) {
 }
 
 // Update - 특정 가계부 항목 하나를 수정한다.
-function updateOneExpense(userID, {_id, name, date, money, is_positive, is_school}) {
+function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
         callback(null);
         return;
     }
     ExpenseModel.findById(_id, (err, expense) => {
         if (!err) {
-            Object.assign(expense, { name, date, money, is_positive, is_school })
+            Object.assign(expense, { name, date, money, isPositive, isSchool })
             expense.save((err) => {
                 if (!err) {
                     callback("ok");

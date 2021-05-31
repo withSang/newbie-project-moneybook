@@ -12,11 +12,11 @@ const expenseSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    is_positive : {
+    isPositive : {
         type: Boolean,
         default: false //기본값은 지출
     },
-    is_school : {
+    isSchool : {
         type: Boolean,
         default: true //기본은 교내
     }
