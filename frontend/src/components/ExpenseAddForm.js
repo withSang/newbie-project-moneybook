@@ -24,7 +24,7 @@ function ExpenseAddForm({user, expense, setExpenseModified}) {
     };
 
     return (
-        <ExpenseForm user={user} expense={undefined} setExpenseModified={setExpenseModified} buttonText="추기" callback={requestExpenseAdd}/>
+        <ExpenseForm user={user} expense={undefined} setExpenseModified={setExpenseModified} buttonText="추가" callback={requestExpenseAdd}/>
     )
 }
 

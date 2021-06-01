@@ -23,11 +23,13 @@ function ExpenseForm ( {user, expense, setExpenseModified, buttonText, callback}
     registerLocale('ko', ko);
 
     const clearForm = () => {
-        setDate(new Date(prevExpense.date || new Date()));
-        setName(prevExpense.name || '')
-        setMoney(prevExpense.money || 0);
-        setIsPositive(prevExpense.isPositive || false);
-        setIsSchool(prevExpense.isSchool || true);
+        if (_id) {
+            setDate(new Date(prevExpense.date || new Date()));
+            setName(prevExpense.name || '')
+            setMoney(prevExpense.money || 0);
+            setIsPositive(prevExpense.isPositive || false);
+            setIsSchool(prevExpense.isSchool || true);
+        }
     }
 
     const handleSubmit = () => {

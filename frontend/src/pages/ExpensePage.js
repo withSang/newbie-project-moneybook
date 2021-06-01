@@ -7,7 +7,7 @@ import axios from 'axios';
 function ExpensePage({ user }) {
     const { name } = user;
     // const [ editMode, setEditMode ] = useState(false); //수정중(true)인지 새로 추가중(false)인지
-    const [ expenseToEdit, setExpenseToEdit ] = useState({});
+    const [ expenseToEdit, setExpenseToEdit ] = useState(null);
     const [ expenseModified, setExpenseModified ] = useState(true);
     const [ expenses, setExpenses ] = useState([])
 
@@ -37,13 +37,20 @@ function ExpensePage({ user }) {
         }
     }, [expenseModified, expenses, user.userID]);
 
+    useEffect(() => {
+        
+    }, [expenseToEdit]);
+
     return (
         <div>
             <h2>{name}의 가계부 페이지</h2>
-            <ExpenseAddForm user={user} setExpenseModified={setExpenseModified} />
-            <ExpenseEditForm user={user} setExpenseModified={setExpenseModified} expense={expenseToEdit} />
+            {expenseToEdit? (
+                <ExpenseEditForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} />
+            ) : (
+                <ExpenseAddForm user={user} setExpenseModified={setExpenseModified} />
+            )}
             {expenses.map((item, index) => {
-                return <ExpenseItem item={item} key={index} setExpenseModified={setExpenseModified}/>
+                return <ExpenseItem item={item} key={index} setExpenseModified={setExpenseModified} setExpenseToEdit={setExpenseToEdit}/>
             })}
         </div>
         

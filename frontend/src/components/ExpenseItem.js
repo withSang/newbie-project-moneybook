@@ -5,10 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
-function ExpenseItem( { item, setExpenseModified } ) {
+function ExpenseItem( { item, setExpenseModified, setExpenseToEdit } ) {
     const {_id, userID, date, name, money, isPositive, isSchool } = item;
     const onUpdateClickHandle = () => {
-        return;
+        setExpenseToEdit(item);
     }
     const onDeleteClickHandle = () => {
         axios.delete('/api/expense/delete', {
