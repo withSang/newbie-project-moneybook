@@ -27,15 +27,13 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
     registerLocale('ko', ko);
 
     const clearForm = () => {
-        if (_id) {
-            setExpenseToEdit(null);
-            setDate(new Date());
-            setName('')
-            setMoney(0);
-            setIsPositive(false);
-            setIsSchool(true);
-            setButtonText("추가");
-        }
+        setExpenseToEdit(null);
+        setDate(new Date());
+        setName('')
+        setMoney(0);
+        setIsPositive(false);
+        setIsSchool(true);
+        setButtonText("추가");
     }
 
     const handleSubmit = () => {
@@ -150,6 +148,7 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                 <Form.Row>
                     <Col xs={3}>
                         <DatePicker
+                            className="input-datepicker"
                             locale = 'ko'
                             dateFormat = 'yyyy/MM/dd'
                             selected = {date}
@@ -179,14 +178,15 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                         />
                     </Col>
                     <Col xs={1}>
-                        <select
+                        <Form.Control
+                            as="select"
                             onChange = {({ target : { value }}) => {setIsSchool(value === '교내')}}
                             value = { isSchool ? ("교내") : ("교외") }
                             type = "text"
                         >
                             <option value="교내">교내</option>
                             <option value="교외">교외</option>
-                        </select>
+                        </Form.Control>
                     </Col>
                     <Button variant="primary" onClick={handleSubmit}>{buttonText}</Button>
                     <Button variant="danger" onClick={clearForm}>취소</Button>
