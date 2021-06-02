@@ -10,6 +10,7 @@ function ExpenseItem( { item, setExpenseModified, setExpenseToEdit } ) {
     const onUpdateClickHandle = () => {
         setExpenseToEdit(item);
     }
+    
     const onDeleteClickHandle = () => {
         axios.delete('/api/expense/delete', {
             data : {
