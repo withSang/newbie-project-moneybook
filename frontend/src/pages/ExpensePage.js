@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ExpenseForm from '../components/ExpenseForm';
+import DateChoiceForm from '../components/DateChoiceForm';
 import ExpenseItem from '../components/ExpenseItem';
 import axios from 'axios';
+import { checkDate } from '../security/checkInput';
 
 function ExpensePage({ user }) {
     const { name } = user;
+    const [ startDate, setStartDate ] = useState(new Date(new Date().getTime() - 7*86400*1000));
+    const [ endDate, setEndDate ] = useState(new Date());
     const [ expenseToEdit, setExpenseToEdit ] = useState(null);
     const [ expenseModified, setExpenseModified ] = useState(false);
     const [ expenses, setExpenses ] = useState([]);
@@ -13,7 +17,7 @@ function ExpensePage({ user }) {
 
     const generateTotalMoneyText = (value) => {
         if (value === 0) return "총 지출 없음"
-        return `총 ${(value > 0) ? ("수입") : ("지출")} ${Math.abs(value)}원`
+        return `${(value > 0) ? ("수입") : ("지출")} ${Math.abs(value)}원`
     }
 
 
@@ -24,12 +28,15 @@ function ExpensePage({ user }) {
 
     useEffect(() => {
         if (expenseModified) {
-            axios.post('/api/expense/getAll', {userID: user.userID})
+            if (!checkDate(startDate) || !checkDate(endDate)) {
+                return;
+            }
+            const oneHour = 3600*1000; //1h=3,600,000ms
+            setStartDate(new Date(Math.round(startDate.getTime()/(24*oneHour))*(24*oneHour) - 9*oneHour ));
+            setEndDate(new Date(Math.round(endDate.getTime()/(24*oneHour))*(24*oneHour) - 9*oneHour ));
+            axios.post('/api/expense/getByDate', {userID: user.userID, startDate: startDate, endDate: endDate})
             .then((results) => {
-                //시간 순대로 정렬
-                let newExpenses = results.data;
-                newExpenses.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()); 
-                setExpenses(newExpenses);
+                setExpenses(results.data);
                 setExpenseModified(false);
             }).then(()=>{
                 setExpenseItems(expenses.map((item, index) => {
@@ -37,14 +44,16 @@ function ExpensePage({ user }) {
                 }));
             })
             .catch((error) => {
-                alert(error);
                 return;
             })
             return;
         } else {
-            return;
+            //시간 순대로 정렬
+            let newExpenses = expenses;
+            newExpenses.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()); 
+            setExpenses(newExpenses);
         }
-    }, [expenseModified, expenses, user.userID]);
+    }, [expenseModified, expenses, user.userID, startDate, endDate]);
 
 
     // 사용내역이 바뀌면 총 금액 다시 계산
@@ -64,8 +73,9 @@ function ExpensePage({ user }) {
     return (
         <div>
             <h2>{name}의 가계부 페이지</h2>
-            <p>(최종 결산) <strong>교내</strong> : { generateTotalMoneyText(totalMoney.inSchool) },  <strong>교외</strong> : { generateTotalMoneyText(totalMoney.outSchool) }, <strong>전체</strong> : { generateTotalMoneyText(totalMoney.inSchool + totalMoney.outSchool) }</p>
             <ExpenseForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} />
+            <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} /> 
+            <p>(기간 내 결산) <strong>교내</strong> : { generateTotalMoneyText(totalMoney.inSchool) },  <strong>교외</strong> : { generateTotalMoneyText(totalMoney.outSchool) }, <strong>전체</strong> : { generateTotalMoneyText(totalMoney.inSchool + totalMoney.outSchool) }</p>
             {expenseItems}
         </div>
         

@@ -40,6 +40,25 @@ function getAllExpensesByUser(userID, callback) {
     })
 }
 
+// Retrieve - 특정 사용자, 특정 날짜 범위의 가계부 항목을 모두 가져온다.
+function getExpensesByDate(userID, startDate, endDate, callback) {
+    if ( !checkUserID(userID) ) {
+        callback(null);
+        return;
+    }
+    ExpenseModel.find({
+        userID,
+        date: { $gt: startDate, $lt: endDate }
+    }, (err, expenses) => {
+        if ( !err ) {
+            callback(expenses);
+        } else {
+            callback( err );
+            return;
+        }
+    })
+}
+
 // Update - 특정 가계부 항목 하나를 수정한다.
 function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, callback) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
@@ -78,6 +97,7 @@ function deleteOneExpense(userID, _id, callback) {
 module.exports = {
     addExpense, 
     getAllExpensesByUser,
+    getExpensesByDate,
     updateOneExpense,
     deleteOneExpense
 }

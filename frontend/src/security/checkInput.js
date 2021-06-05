@@ -27,10 +27,25 @@ function checkMoney(value) {
     return re.test(value)
 }
 
+function checkDate(value) {
+    try {
+        const oneHour = 3600*1000; //1h=3,600,000ms
+        let time = Math.round(value.getTime()/(24*oneHour))*(24*oneHour) - 9*oneHour 
+        if (time >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(e) {
+        return false;
+    }
+}
+
 module.exports = {
     checkGenericInput,
     checkName,
     checkUserID,
     checkPassword,
-    checkMoney
+    checkMoney,
+    checkDate
 };

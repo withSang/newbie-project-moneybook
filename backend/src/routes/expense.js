@@ -27,6 +27,21 @@ router.post('/getAll', (req, res) => {
     })
 })
 
+// Retrieve - 특정 사용자, 특정 날짜 범위의 가계부 항목을 모두 가져온다.
+router.post('/getByDate', (req, res) => {
+    const { userID } = req.body;
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+    db.getExpensesByDate(userID, startDate, endDate, (result) => {
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(401).json(result);
+        }
+    })
+    return;
+})
+
 // Update - 특정 가계부 항목 하나를 수정한다.
 router.post('/update', (req, res) => {
     const {userID, _id, name, date, money, isPositive, isSchool} = req.body;
