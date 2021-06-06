@@ -51,10 +51,10 @@ function LoginPage({ authenticated, setUser, location }) {
                     </Col>
                     <Col xs={2}>
                         <Form.Control
-                        value = {userID}
-                        onChange = {({ target : { value } }) => setUserID(value)}
-                        type = "text"
-                        placeholder = "아이디"
+                            value = {userID}
+                            onChange = {({ target : { value } }) => setUserID(value)}
+                            type = "text"
+                            placeholder = "아이디"
                         />
                     </Col>
                 </Form.Row>
@@ -64,10 +64,10 @@ function LoginPage({ authenticated, setUser, location }) {
                     </Col>
                     <Col xs={2}>
                         <Form.Control
-                        value = {password}
-                        onChange = {({ target : { value }}) => setPassword(value)}
-                        type = "password"
-                        placeholder = "비밀번호"
+                            value = {password}
+                            onChange = {({ target : { value }}) => setPassword(value)}
+                            type = "password"
+                            placeholder = "비밀번호"
                         />   
                     </Col>
                 </Form.Row>
