@@ -42,12 +42,35 @@ router.post('/getByDate', (req, res) => {
     return;
 })
 
+// Retrieve - 특정 사용자, 특정 날짜 범위의 가계부 항목을 파일로 다운로드한다.
+router.post('/export', (req, res) => {
+    const {userID, ids} = req.body;
+    db.exportExpensesByDate(userID, ids, (result) => {
+        if (result) {
+            res.writeHead(200, {
+                'Content-Dispotition': 'attachment; filename="export.csv"',
+                'Content-Type': 'text/plain',
+            })
+            const download = Buffer.from(result, 'utf8').toString('base64');
+            res.end(download);
+        } else {
+            res.status(401).json(result);
+        }
+    })
+})
+
+
 // Update - 특정 가계부 항목 하나를 수정한다.
 router.post('/update', (req, res) => {
     const {userID, _id, name, date, money, isPositive, isSchool} = req.body;
-    db.updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, (result) => {
+    db.updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, async (result) => {
         if (result === "ok") {
-            res.status(200).json(result);
+            res.status(200)
+               .contentType('text/csv')
+               .send(result);
+            // res.status(200)
+            //    .attachment('result.csv')
+            //    .send(result);
         } else { //"internal server error"
             res.status(401).json(result);
         }

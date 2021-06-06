@@ -65,15 +65,28 @@ function exportExpensesByDate(userID, ids, callback) {
         callback(null);
         return;
     }
-
     ExpenseModel.find({
+        userID : userID,
         '_id' : { $in: ids }
     }, (err, expenses) => {
         if (!err) {
-            callback(expenses);
-            return;
+            let csvContents = "";
+            csvContents += ("날짜,내역,입금,출금" + '\r\n');
+            expenses.forEach((item) => {
+                let row = [item.date.toLocaleDateString('ko-KR').split(" ").map(v=>v.replace(".","")).join("-"),
+                           item.name + (item.isSchool ? (" (교내)") : (" (교외)")),
+                           "",
+                           ""]
+                if (item.isPositive) {
+                    row[2] = item.money
+                } else {
+                    row[3] = item.money
+                }
+                csvContents += (row.join(',') + '\r\n');
+            })
+            callback(csvContents);
         } else {
-            return null;
+            callback(null);
         }
     })
 }
