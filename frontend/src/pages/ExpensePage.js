@@ -94,24 +94,25 @@ function ExpensePage({ user }) {
                     const a = document.createElement('a');
                     a.href = url;
                     a.download = 'export.xls'
+                    a.onclick = function() {
+                        a.remove()
+                        window.URL.revokeObjectURL(url);
+                    }
                     a.click()
-                    a.remove()
-                    window.URL.revokeObjectURL(url);
-                    
-                    //get 요청을 다시 보내 서버에 있는 엑셀 파일을 지운다.
-                    axios.get('/api/expense/export', {
-                        params : { userID }
-                    }).then((result) => {
-                        return;
-                    }).catch((error) => {
-                        return;
-                    })
-
                 }
             else {
                 // console.log("no result")
                 alert('다운로드에 실패했습니다.')
             }
+        }).then(()=>{
+            // get 요청을 다시 보내 서버에 있는 엑셀 파일을 지운다.
+            axios.get('/api/expense/export', {
+                params : { userID }
+            }).then((result) => {
+                return;
+            }).catch((error) => {
+                return;
+            })
         }).catch((error) => {
             // console.log(error);
             alert('다운로드에 실패했습니다.');
