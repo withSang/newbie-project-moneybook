@@ -59,6 +59,25 @@ function getExpensesByDate(userID, startDate, endDate, callback) {
     })
 }
 
+// Retrieve - 특정 사용자, 특정 날짜 범위의 가계부 항목을 파일로 다운로드한다.
+function exportExpensesByDate(userID, ids, callback) {
+    if ( !checkUserID(userID) ) {
+        callback(null);
+        return;
+    }
+
+    ExpenseModel.find({
+        '_id' : { $in: ids }
+    }, (err, expenses) => {
+        if (!err) {
+            callback(expenses);
+            return;
+        } else {
+            return null;
+        }
+    })
+}
+
 // Update - 특정 가계부 항목 하나를 수정한다.
 function updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, callback) {
     if ( !checkUserID(userID) || !checkGenericInput(name)) {
@@ -99,5 +118,6 @@ module.exports = {
     getAllExpensesByUser,
     getExpensesByDate,
     updateOneExpense,
-    deleteOneExpense
+    deleteOneExpense,
+    exportExpensesByDate
 }

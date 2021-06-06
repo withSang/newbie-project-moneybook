@@ -9,7 +9,7 @@ function DateChoiceForm ({ startDate, endDate, setStartDate, setEndDate, setExpe
         setExpenseModified(true);
     };
 
-    return <div>
+    return <span>
         <DatePicker
             className = "input-datepicker"
             locale = "ko"
@@ -26,7 +26,7 @@ function DateChoiceForm ({ startDate, endDate, setStartDate, setEndDate, setExpe
             variant = "secondary"
             onClick = {handleDateChoice}
         >범위 설정</Button>
-    </div>;
+    </span>
 }
 
 export default DateChoiceForm;
