@@ -87,7 +87,7 @@ function ExpensePage({ user }) {
         axios.post('/api/expense/export', {
             userID,
             ids: IDsToDownload
-        }).then(async (result) => {
+        }).then((result) => {
             if (result) {
                     //엑셀 파일을 다운로드한다.
                     const url = `/api/static/${userID}.xls`
@@ -98,17 +98,19 @@ function ExpensePage({ user }) {
                         a.remove()
                         window.URL.revokeObjectURL(url);
                     }
-                    await a.click()
+                    return a.click()
                 }
             else {
                 // console.log("no result")
                 alert('다운로드에 실패했습니다.')
             }
-        }).then(()=>{
-            // get 요청을 다시 보내 서버에 있는 엑셀 파일을 지운다.
+        }).then(async ()=>{
+            // 3초 뒤 get 요청을 다시 보내 서버에 있는 엑셀 파일을 지운다.
+            await new Promise(resolve => setTimeout(resolve, 3000));
             axios.get('/api/expense/export', {
                 params : { userID }
             }).then((result) => {
+                console.log('done')
                 return;
             }).catch((error) => {
                 return;
