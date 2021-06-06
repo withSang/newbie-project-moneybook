@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ExpensePage from './pages/ExpensePage';
+import PresetPage from './pages/PresetPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
@@ -33,6 +34,11 @@ function App() {
             exact path="/moneybook"
             authenticated = {authenticated}
             render = {props => <ExpensePage user={user} {...props} />}
+          />
+          <AuthRoute
+            exact path="/preset"
+            authenticated = {authenticated}
+            render = {props => <PresetPage user={user} {...props} />}
           />
           <Route
             exact path="/login"
