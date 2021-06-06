@@ -87,7 +87,7 @@ function ExpensePage({ user }) {
         axios.post('/api/expense/export', {
             userID,
             ids: IDsToDownload
-        }).then((result) => {
+        }).then(async (result) => {
             if (result) {
                     //엑셀 파일을 다운로드한다.
                     const url = `/api/static/${userID}.xls`
@@ -98,7 +98,7 @@ function ExpensePage({ user }) {
                         a.remove()
                         window.URL.revokeObjectURL(url);
                     }
-                    a.click()
+                    await a.click()
                 }
             else {
                 // console.log("no result")
