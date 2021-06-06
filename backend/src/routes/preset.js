@@ -31,7 +31,7 @@ router.post('/getAll', (req, res) => {
 // Update - 특정 프리셋 항목 하나를 수정한다.
 router.post('/update', (req, res) => {
     const {userID, _id, name, money, isPositive, isSchool} = req.body;
-    db.updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, async (result) => {
+    db.updateOnePreset(userID, {_id, name, money, isPositive, isSchool}, async (result) => {
         if (result === "ok") {
             res.status(200).send(result);
         } else { //"internal server error"
