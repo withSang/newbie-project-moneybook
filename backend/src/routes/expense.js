@@ -98,12 +98,7 @@ router.post('/update', (req, res) => {
     const {userID, _id, name, date, money, isPositive, isSchool} = req.body;
     db.updateOneExpense(userID, {_id, name, date, money, isPositive, isSchool}, async (result) => {
         if (result === "ok") {
-            res.status(200)
-               .contentType('text/csv')
-               .send(result);
-            // res.status(200)
-            //    .attachment('result.csv')
-            //    .send(result);
+            res.status(200).send(result);
         } else { //"internal server error"
             res.status(401).json(result);
         }
