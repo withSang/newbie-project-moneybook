@@ -2,6 +2,9 @@
 const express = require('express');
 const db = require('../dbs/expense');
 const router = express.Router();
+const { exec } = require('child_process');
+const fs = require('fs');
+const staticDir = process.env.PWD + '/static';
 
 // Create - 새 가계부 항목을 추가한다.
 router.post('/add', (req, res) => {
@@ -45,19 +48,49 @@ router.post('/getByDate', (req, res) => {
 // Retrieve - 특정 사용자, 특정 날짜 범위의 가계부 항목을 파일로 다운로드한다.
 router.post('/export', (req, res) => {
     const {userID, ids} = req.body;
+    const csvPath = `${staticDir}/${userID}.csv`
+    const xlsPath = `${staticDir}/${userID}.xls`
+
     db.exportExpensesByDate(userID, ids, (result) => {
         if (result) {
-            res.writeHead(200, {
-                'Content-Dispotition': 'attachment; filename="export.csv"',
-                'Content-Type': 'text/plain',
+            fs.writeFile(csvPath, result, 'utf8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.status(401).json(result);
+                    return;
+                } else {
+                    exec(`ssconvert ${csvPath} ${xlsPath}`, (err, stdout, stderr) => {
+                        // console.log('converted well.')
+                        fs.unlink(csvPath, (err) => {
+                            if (!err) {
+                                // console.log('csv file removed successfully');
+                                res.status(200).send(userID);
+                            }
+                        })                        
+                    })
+                    return;
+                }
             })
-            const download = Buffer.from(result, 'utf8').toString('base64');
-            res.end(download);
         } else {
             res.status(401).json(result);
         }
     })
 })
+
+
+router.get('/export', (req, res) => {
+    const {userID} = req.query;
+    const xlsPath = `${staticDir}/${userID}.xls`
+    fs.unlink(xlsPath, (err) => {
+        if (!err) {
+            // console.log('xls file removed successfully');
+            res.status(200).send('ok');
+        } else {
+            res.status(401).send(null);
+        }
+    })
+
+});
 
 
 // Update - 특정 가계부 항목 하나를 수정한다.

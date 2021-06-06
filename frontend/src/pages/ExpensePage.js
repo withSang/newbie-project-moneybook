@@ -89,16 +89,32 @@ function ExpensePage({ user }) {
             ids: IDsToDownload
         }).then((result) => {
             if (result) {
-                let blob = new Blob(['\uFEFF',Buffer.from(result.data, 'base64').toString('utf8')], {type: "text/csv;charset=utf-8"});
-                let link = document.createElement('a')
-                link.href = window.URL.createObjectURL(blob);
-                link.download = 'export.csv';
-                link.click();
-            } else {
-                console.log("no result")
+                    //엑셀 파일을 다운로드한다.
+                    const url = `/api/static/${userID}.xls`
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'export.xls'
+                    a.click()
+                    a.remove()
+                    window.URL.revokeObjectURL(url);
+                    
+                    //get 요청을 다시 보내 서버에 있는 엑셀 파일을 지운다.
+                    axios.get('/api/expense/export', {
+                        params : { userID }
+                    }).then((result) => {
+                        return;
+                    }).catch((error) => {
+                        return;
+                    })
+
+                }
+            else {
+                // console.log("no result")
+                alert('다운로드에 실패했습니다.')
             }
         }).catch((error) => {
-            console.log(error);
+            // console.log(error);
+            alert('다운로드에 실패했습니다.');
         })
     };
 

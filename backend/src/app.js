@@ -28,6 +28,8 @@ app.get('/', (req, res) => {
     res.status(200).send("backend test frontpage");
 });
 
+app.use('/static', express.static('static'));
+
 app.use('/user', userRouter);
 app.use('/expense', expenseRouter);
 
