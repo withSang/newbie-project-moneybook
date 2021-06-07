@@ -34,7 +34,7 @@ function App() {
           <AuthRoute
             exact path="/moneybook"
             authenticated = {authenticated}
-            render = {props => <ExpensePage user={user} presets={presets} {...props} />}
+            render = {props => <ExpensePage user={user} presets={presets} setPresets={setPresets} {...props} />}
           />
           <AuthRoute
             exact path="/preset"

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { checkDate } from '../security/checkInput';
 import Button from 'react-bootstrap/Button';
 
-function ExpensePage({ user, presets }) {
+function ExpensePage({ user, presets, setPresets }) {
     const { name, userID } = user;
     const [ startDate, setStartDate ] = useState(new Date(new Date().getTime() - 7*86400*1000));
     const [ endDate, setEndDate ] = useState(new Date());
@@ -23,9 +23,20 @@ function ExpensePage({ user, presets }) {
 
 
     useEffect(() => {
+        //프리셋 목록을 불러온다.
+        axios.post('/api/preset/getAll',
+        {userID: userID})
+        .then((results) => {
+            setPresets(results.data);
+            console.log(results.data);
+        })
+        .catch((error) => {
+            return;
+        })
+
         //처음에 expenseModified의 상태를 바꾸면, 아래 useEffect에 의해 가계부 목록이 불러와진다.
         setExpenseModified(true); 
-    }, []);
+    }, [setPresets, userID]);
 
     useEffect(() => {
         if (expenseModified) {
