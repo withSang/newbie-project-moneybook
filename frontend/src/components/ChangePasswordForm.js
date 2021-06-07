@@ -4,6 +4,8 @@ import axios from 'axios';
 import { checkPassword } from '../security/checkInput';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 
@@ -60,10 +62,8 @@ function ChangePasswordForm({ user }) {
     };
 
     return (
-        <div>
-            <h2>비밀번호 변경</h2>
-            <Form.Group>
-                <Form.Row>
+            <Container fluid>
+                <Row>
                     <Col xs={2}>
                         <Form.Label>현재 비밀번호</Form.Label>
                     </Col>
@@ -83,8 +83,8 @@ function ChangePasswordForm({ user }) {
                             null
                         )
                     }
-                </Form.Row>
-                <Form.Row>
+                </Row>
+                <Row>
                     <Col xs={2}>
                         <Form.Label>새 비밀번호</Form.Label>
                     </Col>
@@ -104,10 +104,13 @@ function ChangePasswordForm({ user }) {
                             null
                         )
                     }
-                </Form.Row>
-            <Button variant="primary" onClick={handlePasswordChange}>비빌번호 변경하기</Button>
-            </Form.Group>
-        </div>
+                </Row>
+                <Row>
+                    <Col xs={4}>
+                        <Button variant="primary" onClick={handlePasswordChange}>비빌번호 변경하기</Button>
+                    </Col>
+                </Row>
+            </Container>
     );
 };
 

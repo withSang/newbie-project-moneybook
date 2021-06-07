@@ -32,8 +32,10 @@ function PresetItem( {item, setPresetModified, setPresetToEdit }) {
                 <Col xs={2}>{money}</Col>
                 <Col xs={1}>{isPositive ? ("수입") : ("지출")}</Col>
                 <Col xs={1}>{isSchool ? ("교내") : ("교외")}</Col>
-                <Col xs={1}><Button variant="secondary" onClick={onUpdateClickHandle}>수정</Button></Col>
-                <Col xs={1}><Button variant="danger" onClick={onDeleteClickHandle}>삭제</Button></Col>
+                <Col xs={2}>
+                    <Button variant="secondary" onClick={onUpdateClickHandle}>수정</Button>
+                    <Button variant="danger" onClick={onDeleteClickHandle}>삭제</Button>
+                </Col>
             </Row>
         </Container>
     )
