@@ -8,6 +8,8 @@ const presetRouter = require('./routes/preset');
 const app = express();
 const port = 8000;
 
+mongoose.set('useCreateIndex', true); //fixes "DeprecationWarning: collection.ensureIndex is deprecated."
+
 //DB에 연결. 기존에 데이터베이스가 없다면 새로 만든다.
 mongoose.connect("mongodb://localhost:27017/moneybook", {
   useNewUrlParser: true,
