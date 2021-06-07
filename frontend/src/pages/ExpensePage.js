@@ -4,7 +4,6 @@ import DateChoiceForm from '../components/DateChoiceForm';
 import ExpenseItem from '../components/ExpenseItem';
 import axios from 'axios';
 import { checkDate } from '../security/checkInput';
-import './ExpensePage.css';
 
 function ExpensePage({ user, presets, setPresets }) {
     const { userID } = user;
@@ -52,9 +51,13 @@ function ExpensePage({ user, presets, setPresets }) {
                 setExpenses(results.data);
                 setExpenseModified(false);
             }).then(()=>{
-                setExpenseItems(expenses.map((item, index) => {
+                setExpenseItems(
+
+                    expenses.map((item, index) => {
                     return <ExpenseItem item={item} key={index} setExpenseModified={setExpenseModified} setExpenseToEdit={setExpenseToEdit}/>
-                }));
+                    })
+
+                );
             })
             .catch((error) => {
                 return;

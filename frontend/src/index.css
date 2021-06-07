@@ -3,3 +3,28 @@
 * {
     font-family: 'Noto Serif KR', serif;
 }
+
+button {
+    margin-left: 1%;
+}
+
+h3 {
+	margin-top: 2%;
+    margin-bottom: 1%
+}
+
+.xs-1 {
+    width: 8.33%
+}
+
+.xs-2 {
+    width: 16.66%
+}
+
+.xs-3 {
+    width: 25%
+}
+
+.xs-4{
+    width: 33.32%
+}

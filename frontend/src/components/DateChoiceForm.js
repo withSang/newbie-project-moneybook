@@ -34,20 +34,16 @@ function DateChoiceForm ({ startDate, endDate, setStartDate, setEndDate, setExpe
                     onChange = {(selectedDate) => {setEndDate(selectedDate)}}
                 />
             </Col>
-            <Col xs={2}>
+            <Col xs={3}>
                 <Button
                     variant = "secondary"
                     onClick = {handleDateChoice}
                 >범위 설정</Button>
-            </Col>
-            <Col xs={2}>
                 <Button
                     variant='primary'
                     onClick={ handleDownloadClick }
                 >다운로드</Button>
             </Col>
-
-
         </Row>
     </Container>
 }

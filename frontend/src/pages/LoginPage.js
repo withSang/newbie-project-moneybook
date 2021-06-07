@@ -3,8 +3,10 @@ import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { checkUserID, checkGenericInput } from '../security/checkInput';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 function LoginPage({ authenticated, setUser, location }) {
     const [userID, setUserID] = useState("");
@@ -42,13 +44,15 @@ function LoginPage({ authenticated, setUser, location }) {
 
 
     return (
-        <div>
-            <h1>로그인 페이지</h1>
-            <Form.Group>
-                <Form.Row>
-                    <Col xs={2}>
-                        <Form.Label>아이디</Form.Label>
-                    </Col>
+        <Container style={{
+            textAlign: 'center',
+        }}>
+            <h1 style={{
+                marginTop: '2%',
+                marginBottom: '2%'
+            }}>로그인 페이지</h1>
+                <Row className="row justify-content-center">
+                    <Col xs={2}>아이디</Col>
                     <Col xs={2}>
                         <Form.Control
                             value = {userID}
@@ -57,11 +61,9 @@ function LoginPage({ authenticated, setUser, location }) {
                             placeholder = "아이디"
                         />
                     </Col>
-                </Form.Row>
-                <Form.Row>
-                    <Col xs={2}>
-                        <Form.Label>비밀번호</Form.Label>  
-                    </Col>
+                </Row>
+                <Row className="row justify-content-center">
+                    <Col xs={2}>비밀번호</Col>
                     <Col xs={2}>
                         <Form.Control
                             value = {password}
@@ -70,13 +72,10 @@ function LoginPage({ authenticated, setUser, location }) {
                             placeholder = "비밀번호"
                         />   
                     </Col>
-                </Form.Row>
-            </Form.Group>
-            <Form.Group>
+                </Row>
                 <Button variant='primary' onClick={handleSubmit}>로그인</Button>
                 <Button variant='info' onClick={() => {history.push('/register')}}>회원가입</Button>
-            </Form.Group>
-        </div>
+        </Container>
     );
 }
 
