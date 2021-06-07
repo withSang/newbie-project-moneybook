@@ -4,10 +4,10 @@ import DateChoiceForm from '../components/DateChoiceForm';
 import ExpenseItem from '../components/ExpenseItem';
 import axios from 'axios';
 import { checkDate } from '../security/checkInput';
-import Button from 'react-bootstrap/Button';
+import './ExpensePage.css';
 
 function ExpensePage({ user, presets, setPresets }) {
-    const { name, userID } = user;
+    const { userID } = user;
     const [ startDate, setStartDate ] = useState(new Date(new Date().getTime() - 7*86400*1000));
     const [ endDate, setEndDate ] = useState(new Date());
     const [ expenseToEdit, setExpenseToEdit ] = useState(null);
@@ -135,10 +135,10 @@ function ExpensePage({ user, presets, setPresets }) {
 
     return (
         <div>
-            <h2>{name}의 가계부 페이지</h2>
+            <h3>가계부 추가하기</h3>
             <ExpenseForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} presets={presets}/>
-            <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} /> 
-            <Button variant='primary' onClick={ handleDownloadClick }>다운로드</Button>
+            <h3>가계부 조회하기</h3>
+            <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} handleDownloadClick={handleDownloadClick}/> 
             <p>(기간 내 결산) <strong>교내</strong> : { generateTotalMoneyText(totalMoney.inSchool) },  <strong>교외</strong> : { generateTotalMoneyText(totalMoney.outSchool) }, <strong>전체</strong> : { generateTotalMoneyText(totalMoney.inSchool + totalMoney.outSchool) }</p>
             {expenseItems}
         </div>

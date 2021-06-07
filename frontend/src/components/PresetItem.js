@@ -26,7 +26,7 @@ function PresetItem( {item, setPresetModified, setPresetToEdit }) {
     }
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <Col xs={2}>{name}</Col>
                 <Col xs={2}>{money}</Col>

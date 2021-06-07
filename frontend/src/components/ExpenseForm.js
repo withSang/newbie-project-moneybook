@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { checkGenericInput, checkMoney } from '../security/checkInput';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import axios from 'axios';
-
 
 function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdit, presets} ) {
     const prevExpense = expenseToEdit || {};
@@ -144,9 +145,9 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
     }
 
     return (
-        <div>
-            <Form.Group>
-                <Form.Row>
+        
+            <Container fluid>
+                <Row>
                     <Col xs={2}>
                         <Form.Label>날짜</Form.Label>
                     </Col>
@@ -162,11 +163,10 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                     <Col xs={1}>
                         <Form.Label>교내/교외</Form.Label>
                     </Col>
-                </Form.Row>
-                <Form.Row>
+                </Row>
+                <Row>
                     <Col xs={2}>
                         <DatePicker
-                            className="input-datepicker"
                             locale = 'ko'
                             dateFormat = 'yyyy/MM/dd'
                             selected = {date}
@@ -174,12 +174,6 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                         />
                     </Col>
                     <Col xs={2}>
-                        {/* <Form.Control
-                            value = {name}
-                            onChange = {({ target : { value }}) => setName(value)}
-                            type = "text"
-                            placeholder = "항목명"
-                        /> */}
                         <ReactSearchAutocomplete
                             items = {presets.map((item, index)=>{return {id:index, name:item.name}})}
                             showIcon={false}
@@ -190,7 +184,6 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                             inputSearchString={name}
                             onSearch={handleNameOnSearch}
                             onSelect={handleNameOnSelect}
-                            
                         />
                     </Col>
                     <Col xs={2}>
@@ -220,15 +213,15 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                     </Col>
                     <Button variant="primary" onClick={handleSubmit}>{buttonText}</Button>
                     <Button variant="danger" onClick={clearForm}>취소</Button>
-                </Form.Row>
+                </Row>
                 {nameWarning ? (
                     <Alert variant="danger">{nameWarning}</Alert>
                 ) : (null)}
                 {moneyWarning ? (
                     <Alert variant="danger">{moneyWarning}</Alert>
                 ) : (null)}
-            </Form.Group>
-        </div>
+            </Container>
+        
     );
 };
 

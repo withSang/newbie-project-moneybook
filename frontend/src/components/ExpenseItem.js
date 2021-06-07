@@ -26,7 +26,7 @@ function ExpenseItem( { item, setExpenseModified, setExpenseToEdit } ) {
     }
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <Col xs={2}>{new Date(date).toLocaleString().split(". ").slice(0,3).join("/")}</Col>
                 <Col xs={2}>{name}</Col>
