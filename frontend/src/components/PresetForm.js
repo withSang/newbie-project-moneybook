@@ -26,6 +26,8 @@ function PresetForm( {user, setPresetModified, presetToEdit, setPresetToEdit} ) 
         setIsPositive(false);
         setIsSchool(true);
         setButtonText("추가");
+        setNameWarning("");
+        setMoneyWarning("");
     }
 
     const handleSubmit = () => {
@@ -125,10 +127,10 @@ function PresetForm( {user, setPresetModified, presetToEdit, setPresetToEdit} ) 
                     <Col xs={2}>
                         <Form.Label>금액</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={1}>
                         <Form.Label>수입</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={1}>
                         <Form.Label>교내/교외</Form.Label>
                     </Col>
                 </Form.Row>  

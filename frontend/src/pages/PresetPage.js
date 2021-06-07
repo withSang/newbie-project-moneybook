@@ -3,11 +3,10 @@ import PresetForm from '../components/PresetForm';
 import PresetItem from '../components/PresetItem';
 import axios from 'axios';
 
-function PresetPage({ user }) {
+function PresetPage({ user, presets, setPresets }) {
     const { name, userID } = user;
     const [ presetToEdit, setPresetToEdit ] = useState(null);
     const [ presetModified, setPresetModified ] = useState(false);
-    const [ presets, setPresets ] = useState([]);
     const [ presetItems, setPresetItems ] = useState([]);
 
     useEffect(() => {
@@ -35,7 +34,7 @@ function PresetPage({ user }) {
             // newPresets.sort((a,b) => a.name.localeCompare(b.name))
             // setPresets(newPresets)
         }
-    }, [presetModified, presets, userID]);
+    }, [presetModified, presets, setPresets, userID]);
 
     return (
         <div>

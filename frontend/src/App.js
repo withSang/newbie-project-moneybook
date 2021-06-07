@@ -13,7 +13,8 @@ import PresetPage from './pages/PresetPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [ user, setUser ] = useState(null);
+  const [ presets, setPresets ] = useState([]);
   let authenticated = user !== null;
   const logout = () => setUser(null);
 
@@ -33,12 +34,12 @@ function App() {
           <AuthRoute
             exact path="/moneybook"
             authenticated = {authenticated}
-            render = {props => <ExpensePage user={user} {...props} />}
+            render = {props => <ExpensePage user={user} presets={presets} {...props} />}
           />
           <AuthRoute
             exact path="/preset"
             authenticated = {authenticated}
-            render = {props => <PresetPage user={user} {...props} />}
+            render = {props => <PresetPage user={user} presets={presets} setPresets={setPresets} {...props} />}
           />
           <Route
             exact path="/login"
