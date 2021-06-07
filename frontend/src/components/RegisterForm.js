@@ -4,6 +4,8 @@ import { checkName, checkUserID, checkPassword } from '../security/checkInput';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 
@@ -60,11 +62,19 @@ function RegisterForm() {
     };
 
     return (
-        <div>
-            <h1>회원가입 페이지</h1>
-            <Form.Group>
-                <Form.Row>
-                    <Col xs={1}>
+        <Container style={{
+            textAlign: 'left',
+        }}>
+            <h1 style={{
+                textAlign: 'center',
+                marginTop: '2%',
+                marginBottom: '1%'
+            }}>회원가입 페이지</h1>
+            <Form.Group style={{
+                marginLeft: '20%'
+            }}>
+                <Row>
+                    <Col xs={2}>
                         <Form.Label>이름</Form.Label>
                     </Col>
                     <Col xs={2}>
@@ -83,12 +93,12 @@ function RegisterForm() {
                             null
                         )
                     }
-                </Form.Row>
-                <Form.Row>
-                    <Col xs={1}>
+                </Row>
+                <Row>
+                    <Col xs={2}>
                         <Form.Label>아이디</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={4}>
                         <input
                             value = {userID}
                             onChange = {({ target : { value } }) => setUserID(value)}
@@ -96,7 +106,7 @@ function RegisterForm() {
                             placeholder = "아이디"
                         />
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={3}>
                         <Button variant="info" onClick={() => {checkUserIDIsUnique(userID, ()=>{alert('사용 가능한 아이디입니다.')})}}>아이디 중복 확인</Button>
                     </Col>
                     { userIDWarning ? (
@@ -107,12 +117,12 @@ function RegisterForm() {
                             null
                         )
                     }                 
-                </Form.Row>
-                <Form.Row>
-                    <Col xs={1}>
+                </Row>
+                <Row>
+                    <Col xs={2}>
                         <Form.Label>비밀번호</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={4}>
                         <input
                             value = {password}
                             onChange = {({ target : { value } }) => setPassword(value)}
@@ -128,11 +138,11 @@ function RegisterForm() {
                             null
                         )
                     }
-                </Form.Row>
+                </Row>
                 <Button variant="primary" onClick={() => {checkUserIDIsUnique(userID, handleSubmit)}}>회원가입</Button>
                 <Button variant="info" onClick={() => {history.push('/login')}}>돌아가기</Button>
             </Form.Group>
-        </div>
+        </Container>
     );
 };
 

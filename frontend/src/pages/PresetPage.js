@@ -4,7 +4,7 @@ import PresetItem from '../components/PresetItem';
 import axios from 'axios';
 
 function PresetPage({ user, presets, setPresets }) {
-    const { name, userID } = user;
+    const { userID } = user;
     const [ presetToEdit, setPresetToEdit ] = useState(null);
     const [ presetModified, setPresetModified ] = useState(false);
     const [ presetItems, setPresetItems ] = useState([]);
@@ -38,8 +38,9 @@ function PresetPage({ user, presets, setPresets }) {
 
     return (
         <div>
-            <h2>{name}의 프리셋 페이지</h2>
+            <h3>프리셋 추가하기</h3>
             <PresetForm user={user} setPresetModified={setPresetModified} presetToEdit={presetToEdit} setPresetToEdit={setPresetToEdit}/>
+            <h3>프리셋 조회하기</h3>
             {presetItems}
         </div>
     )

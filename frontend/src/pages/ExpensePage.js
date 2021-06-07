@@ -4,10 +4,9 @@ import DateChoiceForm from '../components/DateChoiceForm';
 import ExpenseItem from '../components/ExpenseItem';
 import axios from 'axios';
 import { checkDate } from '../security/checkInput';
-import Button from 'react-bootstrap/Button';
 
-function ExpensePage({ user, presets }) {
-    const { name, userID } = user;
+function ExpensePage({ user, presets, setPresets }) {
+    const { userID } = user;
     const [ startDate, setStartDate ] = useState(new Date(new Date().getTime() - 7*86400*1000));
     const [ endDate, setEndDate ] = useState(new Date());
     const [ expenseToEdit, setExpenseToEdit ] = useState(null);
@@ -23,9 +22,20 @@ function ExpensePage({ user, presets }) {
 
 
     useEffect(() => {
+        //프리셋 목록을 불러온다.
+        axios.post('/api/preset/getAll',
+        {userID: userID})
+        .then((results) => {
+            setPresets(results.data);
+            console.log(results.data);
+        })
+        .catch((error) => {
+            return;
+        })
+
         //처음에 expenseModified의 상태를 바꾸면, 아래 useEffect에 의해 가계부 목록이 불러와진다.
         setExpenseModified(true); 
-    }, []);
+    }, [setPresets, userID]);
 
     useEffect(() => {
         if (expenseModified) {
@@ -41,9 +51,13 @@ function ExpensePage({ user, presets }) {
                 setExpenses(results.data);
                 setExpenseModified(false);
             }).then(()=>{
-                setExpenseItems(expenses.map((item, index) => {
+                setExpenseItems(
+
+                    expenses.map((item, index) => {
                     return <ExpenseItem item={item} key={index} setExpenseModified={setExpenseModified} setExpenseToEdit={setExpenseToEdit}/>
-                }));
+                    })
+
+                );
             })
             .catch((error) => {
                 return;
@@ -124,10 +138,10 @@ function ExpensePage({ user, presets }) {
 
     return (
         <div>
-            <h2>{name}의 가계부 페이지</h2>
+            <h3>가계부 추가하기</h3>
             <ExpenseForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} presets={presets}/>
-            <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} /> 
-            <Button variant='primary' onClick={ handleDownloadClick }>다운로드</Button>
+            <h3>가계부 조회하기</h3>
+            <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} handleDownloadClick={handleDownloadClick}/> 
             <p>(기간 내 결산) <strong>교내</strong> : { generateTotalMoneyText(totalMoney.inSchool) },  <strong>교외</strong> : { generateTotalMoneyText(totalMoney.outSchool) }, <strong>전체</strong> : { generateTotalMoneyText(totalMoney.inSchool + totalMoney.outSchool) }</p>
             {expenseItems}
         </div>
