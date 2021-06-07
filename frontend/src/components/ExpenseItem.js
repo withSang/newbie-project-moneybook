@@ -28,10 +28,10 @@ function ExpenseItem( { item, setExpenseModified, setExpenseToEdit } ) {
     return (
         <Container>
             <Row>
-                <Col xs={3}>{new Date(date).toLocaleString().split(". ").slice(0,3).join("/")}</Col>
+                <Col xs={2}>{new Date(date).toLocaleString().split(". ").slice(0,3).join("/")}</Col>
                 <Col xs={2}>{name}</Col>
                 <Col xs={2}>{money}</Col>
-                <Col xs={2}>{isPositive ? ("수입") : ("지출")}</Col>
+                <Col xs={1}>{isPositive ? ("수입") : ("지출")}</Col>
                 <Col xs={1}>{isSchool ? ("교내") : ("교외")}</Col>
                 <Button variant="secondary" onClick={onUpdateClickHandle}>수정</Button>
                 <Button variant="danger" onClick={onDeleteClickHandle}>삭제</Button>

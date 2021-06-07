@@ -6,10 +6,11 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import axios from 'axios';
 
 
-function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdit} ) {
+function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdit, presets} ) {
     const prevExpense = expenseToEdit || {};
     const _id = prevExpense._id || null;
     const userID = user.userID;
@@ -34,6 +35,8 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
         setIsPositive(false);
         setIsSchool(true);
         setButtonText("추가");
+        setNameWarning("");
+        setMoneyWarning("");
     }
 
     const handleSubmit = () => {
@@ -125,11 +128,26 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
         }
     }, [expenseToEdit]);
 
+    const handleNameOnSearch = (string, results) => {
+        //string: 현재 검색창에 넣은 단어
+        //results: 매칭된 단어 (매칭되지 않는 단어도 섞이는 것 같다)
+        setName(string);
+    }
+
+    const handleNameOnSelect = (result) => {
+        //검색창에 있는 프리셋 중 하나를 클릭했을 때 반응.
+        const presetToApply = presets[result.id]
+        setName(presetToApply.name);
+        setMoney(presetToApply.money);
+        setIsPositive(presetToApply.isPositive);
+        setIsSchool(presetToApply.isSchool);
+    }
+
     return (
         <div>
             <Form.Group>
                 <Form.Row>
-                    <Col xs={3}>
+                    <Col xs={2}>
                         <Form.Label>날짜</Form.Label>
                     </Col>
                     <Col xs={2}>
@@ -138,15 +156,15 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                     <Col xs={2}>
                         <Form.Label>금액</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={1}>
                         <Form.Label>수입</Form.Label>
                     </Col>
-                    <Col xs={2}>
+                    <Col xs={1}>
                         <Form.Label>교내/교외</Form.Label>
                     </Col>
                 </Form.Row>
                 <Form.Row>
-                    <Col xs={3}>
+                    <Col xs={2}>
                         <DatePicker
                             className="input-datepicker"
                             locale = 'ko'
@@ -156,11 +174,23 @@ function ExpenseForm ( {user, setExpenseModified, expenseToEdit, setExpenseToEdi
                         />
                     </Col>
                     <Col xs={2}>
-                        <Form.Control
+                        {/* <Form.Control
                             value = {name}
                             onChange = {({ target : { value }}) => setName(value)}
                             type = "text"
                             placeholder = "항목명"
+                        /> */}
+                        <ReactSearchAutocomplete
+                            items = {presets.map((item, index)=>{return {id:index, name:item.name}})}
+                            showIcon={false}
+                            styling={{
+                                borderRadius: "3px",
+                                height: "36px"
+                            }}
+                            inputSearchString={name}
+                            onSearch={handleNameOnSearch}
+                            onSelect={handleNameOnSelect}
+                            
                         />
                     </Col>
                     <Col xs={2}>

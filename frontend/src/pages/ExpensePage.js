@@ -6,7 +6,7 @@ import axios from 'axios';
 import { checkDate } from '../security/checkInput';
 import Button from 'react-bootstrap/Button';
 
-function ExpensePage({ user }) {
+function ExpensePage({ user, presets }) {
     const { name, userID } = user;
     const [ startDate, setStartDate ] = useState(new Date(new Date().getTime() - 7*86400*1000));
     const [ endDate, setEndDate ] = useState(new Date());
@@ -125,7 +125,7 @@ function ExpensePage({ user }) {
     return (
         <div>
             <h2>{name}의 가계부 페이지</h2>
-            <ExpenseForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} />
+            <ExpenseForm user={user} setExpenseModified={setExpenseModified} expenseToEdit={expenseToEdit} setExpenseToEdit={setExpenseToEdit} presets={presets}/>
             <DateChoiceForm startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setExpenseModified={setExpenseModified} /> 
             <Button variant='primary' onClick={ handleDownloadClick }>다운로드</Button>
             <p>(기간 내 결산) <strong>교내</strong> : { generateTotalMoneyText(totalMoney.inSchool) },  <strong>교외</strong> : { generateTotalMoneyText(totalMoney.outSchool) }, <strong>전체</strong> : { generateTotalMoneyText(totalMoney.inSchool + totalMoney.outSchool) }</p>
